@@ -4,17 +4,16 @@
 package keystore
 
 import (
-	"github.com/ethereum/go-ethereum/crypto/secp256k1"
-	"github.com/fbsobreira/gotron-sdk/pkg/address"
+	"github.com/aawadallak/gotron-sdk/pkg/address"
+	"github.com/ethereum/go-ethereum/crypto"
 )
 
 func RecoverPubkey(hash []byte, signature []byte) (address.Address, error) {
-
 	if signature[64] >= 27 {
 		signature[64] -= 27
 	}
 
-	sigPublicKey, err := secp256k1.RecoverPubkey(hash, signature)
+	sigPublicKey, err := crypto.Ecrecover(hash, signature)
 	if err != nil {
 		return nil, err
 	}
